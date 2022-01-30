@@ -1,0 +1,54 @@
+---
+title: "30_conhecimento_codigo"
+author: "Victor Elias"
+date: "28/01/2022"
+output: html_document
+---
+
+# Bibliotecas
+```{r}
+library(tidyverse)
+library(ggplot2)
+```
+
+
+# Lê os dados
+```{r}
+planetas <- read.csv("exoplanetas.csv")
+```
+
+
+
+
+# Bases
+```{r}
+
+data <- planetas %>% 
+  select(X..name, discovered, planet_status, mass, radius,
+         orbital_period)
+
+
+data <- data %>% 
+  rename(name = X..name) %>% 
+  filter(!is.na(mass),
+         !is.na(radius)) %>% 
+  replace_na(list(orbital_period = "Sem atualização",
+                  discovered = "Sem atualização"))
+
+
+
+# Dez primeiros (em ordem alfabética)
+plot <- data %>% 
+  head(10) %>% 
+  ggplot(aes(mass, name)) +
+  labs(x = "Massa", y = "Nome",
+       title = "Dez primeiros planetas da base de dados.",
+       caption = "Gerado em ggplot por Victor Elias") +
+  geom_col(fill = "#fc033d")
+plot
+
+```
+
+
+
+
