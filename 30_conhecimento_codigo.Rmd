@@ -14,7 +14,7 @@ library(ggplot2)
 
 # Lê os dados
 ```{r}
-planetas <- read.csv("exoplanetas.csv")
+planetas <- read.csv("data/exoplanetas.csv")
 ```
 
 
@@ -29,15 +29,24 @@ data <- planetas %>%
 
 
 data <- data %>% 
-  rename(name = X..name) %>% 
   filter(!is.na(mass),
          !is.na(radius)) %>% 
   replace_na(list(orbital_period = "Sem atualização",
                   discovered = "Sem atualização"))
 
+# Renomeação de data
+data <- data %>% 
+  rename(
+    name = X..name,
+    descoberto = discovered,
+    status = planet_status,
+    massa = mass,
+    radio = radius,
+    periodo_orbital = orbital_period
+  )
 
 
-# Dez primeiros (em ordem alfabética)
+# Dez primeiros (em ordem alfabética) - Teste
 plot <- data %>% 
   head(10) %>% 
   ggplot(aes(mass, name)) +
