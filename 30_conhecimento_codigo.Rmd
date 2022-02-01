@@ -9,6 +9,7 @@ output: html_document
 ```{r}
 library(tidyverse)
 library(ggplot2)
+library(plotly)
 ```
 
 
@@ -16,8 +17,6 @@ library(ggplot2)
 ```{r}
 planetas <- read.csv("data/exoplanetas.csv")
 ```
-
-
 
 
 # Bases
@@ -49,13 +48,17 @@ data <- data %>%
 # Dez primeiros (em ordem alfabética) - Teste
 plot <- data %>% 
   head(10) %>% 
-  ggplot(aes(mass, name)) +
+  arrange(massa) %>% 
+  ggplot(aes(massa, name)) +
   labs(x = "Massa", y = "Nome",
        title = "Dez primeiros planetas da base de dados.",
        caption = "Gerado em ggplot por Victor Elias") +
-  geom_col(fill = "#fc033d")
-plot
+  geom_col(fill = "#fc033d") +
+  theme(
+    axis.title.x = element_text(margin = margin(t = 20))
+  )
 
+plot
 ```
 
 
