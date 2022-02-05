@@ -24,14 +24,8 @@ planetas <- read.csv("data/exoplanetas.csv")
 
 data <- planetas %>% 
   select(X..name, discovered, planet_status, mass, radius,
-         orbital_period)
-
-
-data <- data %>% 
-  filter(!is.na(mass),
-         !is.na(radius)) %>% 
-  replace_na(list(orbital_period = "Sem atualização",
-                  discovered = "Sem atualização"))
+         orbital_period, molecules, updated, star_name, inclination,
+         detection_type, alternate_names)
 
 # Renomeação de data
 data <- data %>% 
@@ -41,9 +35,42 @@ data <- data %>%
     status = planet_status,
     massa = mass,
     radio = radius,
-    periodo_orbital = orbital_period
+    periodo_orbital = orbital_period,
+    moleculas = molecules,
+    atualizado = updated,
+    nome_estrela = star_name,
+    inclinacao = inclination,
+    tipo_deteccao = detection_type,
+    nome_alternativo = alternate_names
   )
 
+data <- data %>% 
+  filter(!is.na(descoberto)) %>% 
+  replace_na(list(periodo_orbital = "Sem atualização"))
+
+
+# Tentar fazer código que separa as palavras.
+# temp <- data %>% 
+#   select(moleculas) %>% 
+#   unique() %>% 
+#   unnest_tokens() %>% 
+
+data <- data %>% 
+  mutate(descoberto = as.numeric(descoberto))
+
+# temp <- data %>% 
+#   select(moleculas) %>%
+#   count(moleculas)
+
+temp_plot <- data %>% 
+  head(50) %>% 
+  ggplot(aes(x = massa, y = name, size = massa)) +
+  geom_point() +
+  theme(
+    axis.text.y = element_text(margin = margin(t = 5)),
+    axis.title.x = element_text(margin = margin(t = 20))
+  )
+temp_plot
 
 # Dez primeiros (em ordem alfabética) - Teste
 plot <- data %>% 
@@ -55,6 +82,7 @@ plot <- data %>%
        caption = "Gerado em ggplot por Victor Elias") +
   geom_col(fill = "#fc033d") +
   theme(
+    axis.title.y = element_text(margin = margin(t = 5)),
     axis.title.x = element_text(margin = margin(t = 20))
   )
 
