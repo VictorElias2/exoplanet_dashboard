@@ -8,6 +8,7 @@ ui <- fluidPage(
   titlePanel("Base de dados de Planetas"),
   sidebarLayout(
     sidebarPanel(
+      tags$img(src = "terra.png", width = "100%"),
       width = 3,
       # Adicionar uma imagem de algum planeta no futuro.
       sliderInput("year_slider", "Ano", value = 2020,
@@ -17,8 +18,8 @@ ui <- fluidPage(
       # selectInput("select_colum", "Select a Colum (SOON)", 
       #             choices = c("Selecionar", names(data))),
       selectInput("select_molecule", "Select a planet with molecule",
-                  choices = c("Selecionar", levels(data$moleculas))),
-    position = "right"),
+                  choices = c("Selecionar", levels(data$moleculas)))),
+    
     mainPanel(
       tabsetPanel(
         tabPanel("Tabela",
